@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- development version, includes helpful console warnings -->
+    <script src="/script/vue.js"></script>
+    <title>Vue JS</title>
+</head>
+
+<body>
+    
+
+    <ol id="app">
+        <!-- Create an instance of the todo-item component -->
+        <todo-item v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id"></todo-item>
+        <button v-for="item in groceryList" v-bind:show="item.show">Confirm</button>
+        <div v-if="show">
+            <div>Hello</div>
+            <div>World</div>
+            <div>Nigel</div>
+        </div>
+
+        <input v-for="thing in things" v-bind:placeholder="thing">
+        <div v-for="thing in things">{{ thing }}</div>
+        <span v-for="n in 10">{{ n }}</span>
+
+        <br>
+        <form>
+            <input type="radio" id="one" value="One" v-model="picked">
+            <label for="one">One</label>
+            <br>
+            <input type="radio" id="two" value="Two" v-model="picked">
+            <label for="two">Two</label>
+            <br>
+            <span>Picked: {{ picked }}</span>
+        </form>
+    </ol>
+    <script>
+        // Define a new component called todo-item
+        Vue.component('todo-item', {
+            props: ['todo'],
+            template: '<li>{{ todo.text }}</li>'
+        });
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                groceryList: [
+                    { id: 0, text: 'Vegetables', show: true },
+                    { id: 1, text: 'Cheese', show: true },
+                    { id: 2, text: 'Whatever else humans are supposed to eat', show: false },
+                ],
+                show: true,
+                picked: "",
+                things: [100, 23, 34],
+            },
+            created: function () {
+                console.log(`Grocery List is: ${JSON.stringify(this.groceryList)}`);
+            },
+            computed: {
+                computedThings: function () {
+                    return this.things;
+                }
+            },
+        })
+
+        setTimeout(() => { app.show = false; }, 3000);
+        setTimeout(() => {
+            app.things.sort(function (prev, cur) { return prev - cur; });
+            console.log(app.things);
+        }, 1000);
+    </script>
+</body>
+
+</html>
